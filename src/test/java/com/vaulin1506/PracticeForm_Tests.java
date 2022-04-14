@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
-public class PracticeForm_demoqa_Tests {
+public class PracticeForm_Tests {
 
     @BeforeAll
     static void setUp() {
