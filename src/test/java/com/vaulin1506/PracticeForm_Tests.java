@@ -5,36 +5,23 @@ import com.codeborne.selenide.Selenide;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import static com.codeborne.selenide.Condition.text;
+import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
 public class PracticeForm_Tests {
 
     @BeforeAll
     static void setUp() {
-        Configuration.holdBrowserOpen = true;
+        //Configuration.holdBrowserOpen = true;
         Configuration.baseUrl = "https://demoqa.com";
     }
 
     @Test
     void Form_Tests() {
-        //String firstName = "Alex";
-        //String lastName = "Ivanov";
-        //String email = "qwe@mail.com";
-        //String gender = "Male";
-        //String userNumber = "0123456789";
-        //LocalDate date = LocalDate.of(1901, 5, 5);
-        //String month = Month.of(date.getMonthValue()).getDisplayName(TextStyle.FULL_STANDALONE, Locale.forLanguageTag("en"));
-
-        //String subjectsInput = "Computer Science";
-        //String hobby = "Sports";
-        //String imgPath = "img/Pushkin.jpg";
-        //String currentAddress = "A N L Colony, Lucknow, Lucknow, UTTAR PRADESH, 226004";
-        //SelenideElement stateCityWrapper = $("#stateCity-wrapper");
-        //String state = "Uttar Pradesh";
-        //String city = "Lucknow";
 
         open("/automation-practice-form");
-        Selenide.zoom(0.7);
+        Selenide.zoom(0.6);
 
         $("#firstName").setValue("Alex");
         $("#lastName").setValue("Ivanov");
@@ -48,15 +35,26 @@ public class PracticeForm_Tests {
         $("#subjectsInput").setValue("Arts");
         $("#subjectsInput").pressTab();
         $(".custom-checkbox:nth-child(1) > .custom-control-label").click();
-        $("#uploadPicture").uploadFromClasspath("img\123.png");
 
-        // $("#dateOfBirthInput").setValue(birthday).pressEnter();
+        //$("#uploadPicture").uploadFromClasspath("/img/123.png"); не могу понять почему не загружает пикчу
 
-        //$(".react-datepicker__month-select").selectOption("5");
-        //$(".react-datepicker__year-select").selectOption(String.valueOf(birth.getYear()));
-        // $("[aria-label$='" + month + " " + birth.getDayOfMonth() + "th, " + birth.getYear() + "']").click();
-        $(".react-select-2-option.");
+        $("#currentAddress").val("Volgograd");
+        $("#react-select-3-input").setValue("NCR");
+        $("#react-select-3-input").pressTab();
+        $("#city").click();
+        $(byText("Delhi")).click();
+        $("#submit").pressEnter();
 
+        $(".table-responsive").shouldHave(text("Student Name " + "Alex " + "Ivanov"),
+                text("Mobile 0123456789"),
+                text("Student Email 123@mail.com"),
+                text("Gender Male"),
+                text("Date of Birth 27 June,1990"),
+                text("Subjects Arts"),
+                text("Hobbies Sports"),
+                text("Address Volgograd"),
+                text("State and City NCR Delhi"));
+        sleep(5000);
 
     }
 }
