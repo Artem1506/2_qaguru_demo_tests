@@ -16,7 +16,7 @@ public class PracticeForm_Tests {
     }
 
     @Test
-    void Practice_Form_Tests() {
+    void Form_Tests() {
         //String firstName = "Alex";
         //String lastName = "Ivanov";
         //String email = "qwe@mail.com";
@@ -41,16 +41,21 @@ public class PracticeForm_Tests {
         $("#userEmail").setValue("123@mail.com");
         $(".custom-radio:nth-child(1) > .custom-control-label").click();
         $("#userNumber").setValue("0123456789");
-        $(".react-datepicker__month-select").selectOption("June"); //Выбор месяца
-        $(".react-datepicker__year-select").selectOption("1990"); //Выбор года
-        $("[aria-label$='June 15th, 1990']").click();
-        //$("#dateOfBirthInput").click();
+        $("#dateOfBirthInput").click();
+        $(".react-datepicker__month-select").selectOption("June");
+        $(".react-datepicker__year-select").selectOption("1990");
+        $("[aria-label$='June 27th, 1990']").click();
+        $("#subjectsInput").setValue("Arts");
+        $("#subjectsInput").pressTab();
+        $(".custom-checkbox:nth-child(1) > .custom-control-label").click();
+        $("#uploadPicture").uploadFromClasspath("img\123.png");
+
         // $("#dateOfBirthInput").setValue(birthday).pressEnter();
 
         //$(".react-datepicker__month-select").selectOption("5");
         //$(".react-datepicker__year-select").selectOption(String.valueOf(birth.getYear()));
         // $("[aria-label$='" + month + " " + birth.getDayOfMonth() + "th, " + birth.getYear() + "']").click();
-        $$("[id^='react-select-2-option']");
+        $(".react-select-2-option.");
 
 
     }
