@@ -9,7 +9,7 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
-public class PracticeForm_Tests {
+public class PracticeForm_demoqa_Tests {
 
     @BeforeAll
     static void setUp() {
@@ -36,7 +36,7 @@ public class PracticeForm_Tests {
         $("#subjectsInput").pressTab();
         $(".custom-checkbox:nth-child(1) > .custom-control-label").click();
 
-        //$("#uploadPicture").uploadFromClasspath("/img/123.png"); не могу понять почему не загружает пикчу
+        //$("#uploadPicture").uploadFromClasspath("/img/123.png"); не могу понять почему не загружает картинку
 
         $("#currentAddress").val("Volgograd");
         $("#react-select-3-input").setValue("NCR");
