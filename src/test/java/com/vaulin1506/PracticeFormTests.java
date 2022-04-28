@@ -13,6 +13,7 @@ public class PracticeFormTests {
     @BeforeAll
     static void setUp() {
         Configuration.holdBrowserOpen = true;
+        Configuration.browserSize = "1920x1080";
         Configuration.baseUrl = "https://demoqa.com";
     }
 
@@ -21,6 +22,9 @@ public class PracticeFormTests {
 
         open("/automation-practice-form");
         //Selenide.zoom(0.6);
+        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
+        executeJavaScript("$('footer').remove()");
+        executeJavaScript("$('#fixedban').remove()");
 
         $("#firstName").setValue("Alex");
         $("#lastName").setValue("Ivanov");
@@ -55,6 +59,5 @@ public class PracticeFormTests {
                 text("Address Volgograd"),
                 text("State and City NCR Delhi"));
         //sleep(5000);
-
     }
 }
