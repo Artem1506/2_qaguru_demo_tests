@@ -1,14 +1,28 @@
 package com.vaulin1506;
 
 import com.codeborne.selenide.Configuration;
+import com.github.javafaker.Faker;
+import com.vaulin1506.pages.PracticeFormPage;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import static com.codeborne.selenide.Condition.text;
-import static com.codeborne.selenide.Selectors.byText;
-import static com.codeborne.selenide.Selenide.*;
+import java.util.Locale;
+import static java.lang.String.format;
 
 public class PracticeFormTests {
+
+    Faker faker = new Faker(new Locale("en-GB"));
+
+    String firstName = faker.name().firstName(),
+            lastName = faker.name().lastName(),
+            userEmail = faker.internet().emailAddress(),
+            userNumber = faker.phoneNumber().subscriberNumber(10),
+            subjectsInput = "Arts",
+            currentAddress = faker.address().fullAddress(),
+            state = "NCR",
+            city = "Delhi";
+
+    String expectedFullName = format("%s %s", firstName, lastName);
+    PracticeFormPage formPage = new PracticeFormPage();
 
     @BeforeAll
     static void setUp() {
@@ -20,44 +34,28 @@ public class PracticeFormTests {
     @Test
     void formTests() {
 
-        open("/automation-practice-form");
-        //Selenide.zoom(0.6);
-        $(".practice-form-wrapper").shouldHave(text("Student Registration Form"));
-        executeJavaScript("$('footer').remove()");
-        executeJavaScript("$('#fixedban').remove()");
+        formPage.openPage()
+                .setFirstName(firstName)
+                .setLastName(lastName)
+                .setEmail(userEmail)
+                .setGenter("Male")
+                .setNumber(userNumber)
+                .setDateOfBierth()
+                .setSubjects(subjectsInput)
+                .setHobbies("Sports")
+                .uploadPicture()
+                .setAddress(currentAddress)
+                .setStateCity(state, city);
 
-        $("#firstName").setValue("Alex");
-        $("#lastName").setValue("Ivanov");
-        $("#userEmail").setValue("123@mail.com");
-        $("#genterWrapper").$(byText("Male")).click();
-        //$(".custom-radio:nth-child(1) > .custom-control-label").click(); исправил
-        $("#userNumber").setValue("0123456789");
-        $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").selectOption("June");
-        $(".react-datepicker__year-select").selectOption("1990");
-        $("[aria-label$='June 27th, 1990']").click();
-        $("#subjectsInput").setValue("Arts");
-        $("#subjectsInput").pressTab();
-        $("#hobbiesWrapper").$(byText("Sports")).click();
-        //$(".custom-checkbox:nth-child(1) > .custom-control-label").click(); исправил
-        $("#uploadPicture").uploadFromClasspath("123.png");
-        $("#currentAddress").val("Volgograd");
-        $("#react-select-3-input").setValue("NCR");
-        $("#react-select-3-input").pressTab();
-        $("#city").click();
-        $(byText("Delhi")).click();
-        $("#submit").pressEnter();
-
-        $(".table-responsive").shouldHave(text("Student Name " + "Alex " + "Ivanov"),
-                text("Mobile 0123456789"),
-                text("Student Email 123@mail.com"),
-                text("Gender Male"),
-                text("Date of Birth 27 June,1990"),
-                text("Subjects Arts"),
-                text("Hobbies Sports"),
-                text("Picture 123.png"),
-                text("Address Volgograd"),
-                text("State and City NCR Delhi"));
-        //sleep(5000);
-    }
+        formPage.checkResult("Student Name", expectedFullName)
+                .checkResult("Mobile", userNumber)
+                .checkResult("Student Email", userEmail)
+                .checkResult("Gender", "Male")
+                .checkResultText("Date of Birth 27 June,1990")
+                .checkResult("Subjects", subjectsInput)
+                .checkResultText("Hobbies Sports")
+                .checkResultText("Picture 123.png")
+                .checkResult("Address", currentAddress)
+                .checkResultStateCity("State and City", state, city);
+           }
 }
