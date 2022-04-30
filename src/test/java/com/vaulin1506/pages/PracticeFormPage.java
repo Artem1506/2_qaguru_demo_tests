@@ -1,7 +1,7 @@
 package com.vaulin1506.pages;
 
-import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
+import com.vaulin1506.pages.components.CalendarComponent;
 
 import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
@@ -9,6 +9,7 @@ import static com.codeborne.selenide.Selenide.*;
 import static com.codeborne.selenide.Selenide.executeJavaScript;
 
 public class PracticeFormPage {
+    CalendarComponent calendar = new CalendarComponent();
     //locators
     SelenideElement subjectsInput = $("#subjectsInput");
     SelenideElement stateInput = $("#react-select-3-input");
@@ -43,11 +44,9 @@ public class PracticeFormPage {
         $("#userNumber").setValue(value);
         return this;
     }
-    public PracticeFormPage setDateOfBierth() {
+    public PracticeFormPage setDateOfBierth(String day, String month, String year) {
         $("#dateOfBirthInput").click();
-        $(".react-datepicker__month-select").selectOption("June");
-        $(".react-datepicker__year-select").selectOption("1990");
-        $("[aria-label$='June 27th, 1990']").click();
+        calendar.setDate(day, month, year);
         return this;
     }
     public PracticeFormPage setSubjects(String value) {
@@ -59,19 +58,19 @@ public class PracticeFormPage {
         $("#hobbiesWrapper").$(byText(value)).click();
         return this;
     }
-    public PracticeFormPage uploadPicture() {
-        $("#uploadPicture").uploadFromClasspath("123.png");
+    public PracticeFormPage uploadPicture(String value) {
+        $("#uploadPicture").uploadFromClasspath(value);
         return this;
     }
     public PracticeFormPage setAddress(String value) {
         $("#currentAddress").setValue(value);
         return this;
     }
-    public PracticeFormPage setStateCity(String value, String value2) {
-        stateInput.setValue(value);
+    public PracticeFormPage setStateCity(String state, String city) {
+        stateInput.setValue(state);
         stateInput.pressTab();
         $("#city").click();
-        $(byText(value2)).click();
+        $(byText(city)).click();
         $("#submit").pressEnter();
         return this;
     }
@@ -83,8 +82,8 @@ public class PracticeFormPage {
         tableResponsive.shouldHave(text(value));
         return this;
     }
-    public PracticeFormPage checkResultStateCity(String key, String value, String vale2) {
-        tableResponsive.shouldHave(text(key + " " + value + " " + vale2));
+    public PracticeFormPage checkResultStateCity(String key, String state, String city) {
+        tableResponsive.shouldHave(text(key + " " + state + " " + city));
         return this;
     }
 }

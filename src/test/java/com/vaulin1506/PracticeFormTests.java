@@ -40,10 +40,10 @@ public class PracticeFormTests {
                 .setEmail(userEmail)
                 .setGenter("Male")
                 .setNumber(userNumber)
-                .setDateOfBierth()
+                .setDateOfBierth("27", "June", "1990")
                 .setSubjects(subjectsInput)
                 .setHobbies("Sports")
-                .uploadPicture()
+                .uploadPicture("123.png")
                 .setAddress(currentAddress)
                 .setStateCity(state, city);
 
